@@ -14,14 +14,17 @@
  * limitations under the License.
  */
 package com.pavlovmedia.oss.jaxrs.publisher.command;
+ 
 
-import org.apache.felix.scr.annotations.Component;
-import org.apache.felix.scr.annotations.Properties;
-import org.apache.felix.scr.annotations.Property;
-import org.apache.felix.scr.annotations.Reference;
-import org.apache.felix.scr.annotations.Service;
+import org.osgi.service.component.annotations.Activate;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
+import org.osgi.service.log.Logger;
+import org.osgi.service.log.LoggerFactory;
+import org.osgi.service.metatype.annotations.Designate;
 
 import com.pavlovmedia.oss.jaxrs.publisher.api.Publisher;
+import com.pavlovmedia.oss.jaxrs.publisher.impl.config.ProviderCommandConfig;
 
 /**
  * Commands to facilitate debugging of the JAX-RS system.
@@ -29,25 +32,28 @@ import com.pavlovmedia.oss.jaxrs.publisher.api.Publisher;
  * @author Shawn Dempsay {@literal <sdempsay@pavlovmedia.com>}
  *
  */
-@Component
-@Service(ProviderCommands.class)
-@Properties({ 
-    @Property(name = "osgi.command.scope", value = "jax"),
-    @Property(name = "osgi.command.function", value = { "getEndpoints", "getFeatures", "getProviders" }),
-    @Property(name = Publisher.SCAN_IGNORE, value = "true")
-})
+@Component(
+    property= {
+        Publisher.SCAN_IGNORE + "=true"
+    }) 
+@Designate(ocd = ProviderCommandConfig.class)
 public class ProviderCommands {
     @Reference
     Publisher publisher;
     
+    @Reference(service = LoggerFactory.class)
+    Logger logger;
+    
+    @Activate
+    private ProviderCommandConfig config;
     /**
      * Lists all the registred endpoints
      */
     public void getEndpoints() {
-        System.out.println("JAX-RS Endpoint mappings: ");
+        logger.debug("JAX-RS Endpoint mappings: ");
         publisher.getEndpoints().forEach((k,v) -> {
-            System.out.println(k);
-            v.forEach(e -> System.out.println(String.format("\t%s", e)));
+            logger.debug(k);
+            v.forEach(e -> logger.debug(String.format("\t%s", e)));
         });
     }
     
@@ -55,19 +61,19 @@ public class ProviderCommands {
      * Lists all the registered features
      */
     public void getFeatures() {
-        System.out.println("JAX-RS Features:");
-        publisher.getFeatures().forEach(f -> System.out.println(f.getClass().getName()));
+        logger.debug("JAX-RS Features:");
+        publisher.getFeatures().forEach(f -> logger.debug(f.getClass().getName()));
     }
     
     /**
      * Lists all the registered providers
      */
     public void getProviders() {
-        System.out.println("JAX-RS Providers:");
+        logger.debug("JAX-RS Providers:");
         publisher.getProviders().forEach(p -> {
-            System.out.println(String.format("%s with the following interfaces:", p.getClass().getName()));
+            logger.debug(String.format("%s with the following interfaces:", p.getClass().getName()));
             for (Class<?> i :p.getClass().getInterfaces()) {
-                System.out.println(String.format("\t%s", i.getName()));
+                logger.debug(String.format("\t%s", i.getName()));
             }
         });
     }
