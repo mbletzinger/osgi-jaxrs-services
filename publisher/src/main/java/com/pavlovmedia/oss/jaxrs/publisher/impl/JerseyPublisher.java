@@ -135,7 +135,7 @@ public class JerseyPublisher extends Application implements Publisher {
      * Service activator. This sets up the service tracker, starts up Jersey
      * and registers a number of features that get used by common applications.
      * 
-     * @param properties OSGi properties
+     * @param config OSGi properties
      * @param context the {@link BundleContext for this bundle}
      */
     @Activate
@@ -177,7 +177,7 @@ public class JerseyPublisher extends Application implements Publisher {
         } catch (InvalidSyntaxException | NoClassDefFoundError e) {
             // These errors are directly impacted to the optional
             // imports from swagger
-            info("Not enabling swagger at this time");
+            logger.info("Not enabling swagger at this time - ", e);
         }
     }
     
@@ -217,8 +217,11 @@ public class JerseyPublisher extends Application implements Publisher {
             swaggerEndpoint.ifPresent(bundleContext::getService);
             if (swaggerEndpoint.isPresent()) {
                 info("Swagger support enabled");
+            } else {
+                logger.error("Swagger endpoint did not start");
             }
         } catch (NoClassDefFoundError e) {
+            logger.error("No class def found - ",e);
             // This will happen if we can't resolve the swagger imports
         }
     }
