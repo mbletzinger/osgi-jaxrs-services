@@ -102,12 +102,12 @@
       <scope>provided</scope>
     </dependency>
 
-    <!-- <dependency>
-      <groupId>org.apache.felix</groupId>
-      <artifactId>org.apache.felix.scr.annotations</artifactId>
-      <version>${scr.annotations.version}</version>
+    <dependency>
+      <groupId>org.osgi</groupId>
+      <artifactId>org.osgi.service.component.annotations</artifactId>
+      <version>${osgi.component.annotations.version}</version>
       <scope>provided</scope>
-    </dependency>-->
+    </dependency>
 
     <dependency>
       <groupId>org.apache.felix</groupId>
