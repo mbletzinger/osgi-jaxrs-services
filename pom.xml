@@ -64,7 +64,7 @@
     <bundle.category>JAX-RS</bundle.category>
     <!-- Plugin versions -->
     <checkstyle.config.location>https://raw.githubusercontent.com/pavlovmedia/checkstyle/master/pavlov.xml</checkstyle.config.location>
-    <maven-bundle-plugin.version>3.0.1</maven-bundle-plugin.version>
+    <maven-bundle-plugin.version>4.2.1</maven-bundle-plugin.version>
     <maven-scr-plugin.version>1.26.0</maven-scr-plugin.version>
     <maven-source-plugin.version>3.0.1</maven-source-plugin.version>
     <pluginversions.javaver>1.8</pluginversions.javaver>
@@ -73,17 +73,18 @@
     <checkstyle.version>7.1</checkstyle.version>
     <checkstyle-plugin.version>2.17</checkstyle-plugin.version>
     <maven-deploy-plugin.version>2.8.2</maven-deploy-plugin.version>
+    <maven-compiler-plugin>2.3</maven-compiler-plugin>
 
     <!-- OSGi support versions -->
-    <osgi.version>5.0.0</osgi.version>
-    <scr.annotations.version>1.9.12</scr.annotations.version>
-    <config-admin.version>1.8.8</config-admin.version>
-    <log.version>1.0.1</log.version>
-    <webconsole.version>4.2.8</webconsole.version>
+    <osgi.version>7.0.0</osgi.version>
+    <scr.annotations.version>1.12.0</scr.annotations.version>
+    <config-admin.version>1.9.16</config-admin.version>
+    <log.version>1.2.0</log.version>
+    <webconsole.version>4.3.16</webconsole.version>
 
     <!-- third party -->
     <servlet.version>3.1.0</servlet.version>
-    <jersey.version>2.22.2</jersey.version>
+    <jersey.version>2.29</jersey.version>
     <swagger.version>1.5.13</swagger.version>
   </properties>
 
@@ -95,7 +96,7 @@
   <dependencies>
     <dependency>
       <groupId>org.osgi</groupId>
-      <artifactId>org.osgi.compendium</artifactId>
+      <artifactId>osgi.cmpn</artifactId>
       <version>${osgi.version}</version>
       <scope>provided</scope>
     </dependency>
@@ -191,7 +192,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
-          <version>2.3</version>
+          <version>${maven-compiler-plugin}</version>
           <configuration>
             <source>${pluginversions.javaver}</source>
             <target>${pluginversions.javaver}</target>
